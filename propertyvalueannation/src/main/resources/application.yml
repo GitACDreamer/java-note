@@ -1,0 +1,8 @@
+# security config
+server:
+  port: 8081
+
+#config some parameters
+root:
+  username: "lelandacm"
+  password: "123456"
