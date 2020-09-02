@@ -15,3 +15,11 @@ acme:
     roles:
       - USER
       - ADMIN
+my:
+  secret: ${random.value}
+  number: ${random.int}
+  bignumber: ${random.long}
+  uuid: ${random.uuid}
+  withIn10: ${random.int(10)}
+
+  numberRange: ${random.int[1024,65535]}

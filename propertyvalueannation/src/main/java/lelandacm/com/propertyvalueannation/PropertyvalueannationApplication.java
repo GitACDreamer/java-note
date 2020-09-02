@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Bean;
 /*
  * 允许开启注解对象
  */
-@EnableConfigurationProperties(AcmeProperties.class)
+@EnableConfigurationProperties({AcmeProperties.class,MyProperties.class})
 public class PropertyvalueannationApplication {
     @Value("${root.username}")
     private String username ;
