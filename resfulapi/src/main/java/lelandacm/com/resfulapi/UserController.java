@@ -31,7 +31,7 @@ public class UserController {
      * @param userEntity 用户实体
      * @return string
      */
-    @PostMapping("/")
+    @PostMapping("/add")
     public String addUser(UserEntity userEntity) {
         users.put(userEntity.getId(), userEntity);
         return "add success";
@@ -70,10 +70,14 @@ public class UserController {
     @PutMapping("/{id}")
     public String updateUserById(@PathVariable Long id, UserEntity entity) {
         UserEntity userEntity = users.get(id);
-        userEntity.setAge(entity.getAge());
-        userEntity.setGender(entity.getGender());
-        userEntity.setPassword(entity.getPassword());
-        userEntity.setUsername(entity.getUsername());
-        return "update success";
+        if(userEntity == null){
+            return "update default" ;
+        }else {
+            userEntity.setAge(entity.getAge());
+            userEntity.setGender(entity.getGender());
+            userEntity.setPassword(entity.getPassword());
+            userEntity.setUsername(entity.getUsername());
+            return "update success";
+        }
     }
 }
