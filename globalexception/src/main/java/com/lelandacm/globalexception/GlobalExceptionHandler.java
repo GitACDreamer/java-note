@@ -17,16 +17,19 @@ public class GlobalExceptionHandler {
     private final JSONGenerator jsonGenerator;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    public GlobalExceptionHandler(JSONGenerator jsonGenerator) {this.jsonGenerator = jsonGenerator;}
+    public GlobalExceptionHandler(JSONGenerator jsonGenerator) {
+        this.jsonGenerator = jsonGenerator;
+    }
 
     @ExceptionHandler(value = Exception.class)
-    public String defaultErrorHandler(HttpServletRequest request , Exception e) {
-        if(e instanceof org.springframework.web.servlet.NoHandlerFoundException){
-           return jsonGenerator.create().setMsg("页面未找到").setStatus(HttpStatus.HTTP_NOT_FOUND).asJson() ;
-        }else{
-            return  jsonGenerator.create().setMsg("内部服务器错误").setStatus(HttpStatus.HTTP_INTERNAL_ERROR).asJson() ;
+    public String defaultErrorHandler(HttpServletRequest request, Exception e) {
+        if (e instanceof org.springframework.web.servlet.NoHandlerFoundException) {
+            return jsonGenerator.create().setMsg("页面未找到").setStatus(HttpStatus.HTTP_NOT_FOUND).asJson();
+        } else {
+            return jsonGenerator.create().setMsg("内部服务器错误").setStatus(HttpStatus.HTTP_INTERNAL_ERROR).asJson();
         }
     }
+
     @ExceptionHandler(value = ConstraintViolationException.class)
     public String validatedException(ConstraintViolationException e) {
         log(e);
@@ -48,30 +51,30 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = HttpRequestMethodNotSupportedException.class)
-    public String methodNotSupportedException(HttpRequestMethodNotSupportedException e){
+    public String methodNotSupportedException(HttpRequestMethodNotSupportedException e) {
         log(e);
         return jsonGenerator.create().setStatus(HttpStatus.HTTP_BAD_METHOD).setMsg("不支持的请求方法")
                 .asJson();
     }
 
     @ExceptionHandler(value = RuntimeException.class)
-    public String runtimeError(RuntimeException e){
+    public String runtimeError(RuntimeException e) {
         log(e);
         return jsonGenerator.create().setStatus(HttpStatus.HTTP_INTERNAL_ERROR).setMsg(e.getMessage())
                 .asJson();
     }
 
     @ExceptionHandler
-    @ResponseStatus(value= org.springframework.http.HttpStatus.NOT_FOUND)
+    @ResponseStatus(value = org.springframework.http.HttpStatus.NOT_FOUND)
     public String requestHandlingNoHandlerFound(final NoHandlerFoundException ex) {
         return jsonGenerator.create().setStatus(HttpStatus.HTTP_NOT_FOUND).setMsg("Page Not Found!")
                 .asJson();
     }
 
-    private void log(Exception e){
-        StringBuilder log=new StringBuilder();
-        log.append(e.getMessage()+"\n");
-        for(StackTraceElement s:e.getStackTrace()){
+    private void log(Exception e) {
+        StringBuilder log = new StringBuilder();
+        log.append(e.getMessage() + "\n");
+        for (StackTraceElement s : e.getStackTrace()) {
             log.append(s.toString());
             log.append("\n");
         }
