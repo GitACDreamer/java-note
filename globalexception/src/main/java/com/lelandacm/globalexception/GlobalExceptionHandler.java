@@ -67,7 +67,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler
     @ResponseStatus(value = org.springframework.http.HttpStatus.NOT_FOUND)
     public String requestHandlingNoHandlerFound(final NoHandlerFoundException ex) {
-        return jsonGenerator.create().setStatus(HttpStatus.HTTP_NOT_FOUND).setMsg("Page Not Found!")
+        return jsonGenerator.create().setStatus(HttpStatus.HTTP_NOT_FOUND).setMsg("页面未找到")
                 .asJson();
     }
 
